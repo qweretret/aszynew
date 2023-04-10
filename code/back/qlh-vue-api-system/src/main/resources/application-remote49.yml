@@ -1,0 +1,76 @@
+jwt:
+  secret: ossjk
+  duration: 7200000
+  flush: 1800000
+resource:
+  mappers:
+    - uri: /statics/zysz
+      file: D:/imgs/zydoces
+    - uri: /statics/zysztmp
+      file:  D:/imgs/zydoces_tmp
+server:
+  port: 12086
+  servlet:
+    context-path: /aszy
+  compression:
+    enabled: true  # 开启响应压缩
+    mime-types:  # 支持的压缩类型
+      - application/json
+      - application/xml
+      - application/javascript
+      - text/html
+      - text/xml
+      - text/plain
+      - text/css
+      - text/javascript
+    min-response-size: 2048
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://db.ossjkedu.cn:3388/aszydb?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
+    password: rZ401Cs
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    validationQuery: select 1
+  redis:
+    database: 0
+    host: localhost
+    password:
+    port: 6379
+    timeout: 0
+    lettuce:
+      pool:
+        max-active: 10   #最大连接数据库连接数,设 0 为没有限制
+        max-idle: 8     #最大空闲连接中的数量,设 0 为没有限制
+        max-wait: -1ms  #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+        min-idle: 1     #最小空闲连接中的数量,设 0 为没有限制
+mybatis:
+  mapperLocations: classpath:com/ossjk/qlh/*/mapper/xml/*.xml
+mybatis-plus:
+  configuration:
+    mapUnderscoreToCamelCase: true
+  mapper-locations: classpath:com/ossjk/qlh/*/mapper/xml/*.xml
+  typeAliasesPackage: com.ossjk.qlh.*.entity
+  global-config:
+    db-config:
+      id-type: UUID
+      field-strategy: NOT_EMPTY
+      db-type: MYSQL
+wechat:
+  open:
+    app-id: wxb36604033b2ea51e #设置微信三方平台的appid
+    secret: f11ddaebe271bb9e5f7550b332cd647f #设置微信三方平台的app secret
+
+    redirect-uri: http://zybk1.ossjk.cn/aszy/wechatLogin  #微信扫码成功后重定向后端地址
+    bing-call-back-uri: http://zyfrt1.ossjk.cn/wechatBind?uid=%s #没有绑定账号的回调前端地址
+    web-call-back-uri:  http://zyfrt1.ossjk.cn/tokenLogin?token=%s #微信和已有账号登录成功的回调前端地址
+    fail-call-backUri:  http://zyfrt1.ossjk.cn/failLogin?msg=%s #微信和已有账号登录失败的回调前端地址（如：帐号禁用情况）
+aliyun:
+  oss:
+    access-key-id:  #访问身份验证中用到用户标识
+    access-key-secret:  #用户用于加密签名字符串和oss用来验证签名字符串的密钥
+    endpoint:  #oss对外服务的访问域名
+    bucket-name:  #oss的存储空间
+knife4j:
+  enable: true

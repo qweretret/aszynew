@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ossjk.qlh.coreability.mapper.CoremodelMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.ossjk.qlh.coreability.entity.Coremodel">
+		<result column="crtm" property="crtm" />
+		<result column="mdtm" property="mdtm" />
+		<result column="crer" property="crer" />
+		<result column="mder" property="mder" />
+		<result column="id" property="id" />
+		<result column="grade" property="grade" />
+		<result column="state" property="state" />
+		<result column="sid" property="sid" />
+		<result column="coremodel" property="coremodel" />
+		<result column="zcmodel" property="zcmodel" />
+		<result column="otrmodel" property="otrmodel" />
+	</resultMap>
+
+	<resultMap id="BaseResultMap2" type="com.ossjk.qlh.coreability.entity.Coremodel">
+		<result column="id" property="id" />
+		<result column="grade" property="grade" />
+		<result column="state"  property="state" />
+		<result column="sid" property="sid" />
+	</resultMap>
+
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		crtm,
+		mdtm,
+		crer,
+		mder,
+		id,
+		grade,
+		state,
+		sid,
+		coremodel,
+		zcmodel,
+		otrmodel
+	</sql>
+	<select id="selectYldUserCore" resultType="String">
+
+		SELECT u.id FROM user u left join user_role ur on u.id=ur.uid where ur.rid in (
+			SELECT r.id from role r left join role_department rd on r.id = rd.rid where rd.did=(
+				SELECT d.id FROM department d where d.name=#{dname}) or rd.did in(
+				SELECT d.id FROM department d where d.pid =(
+					SELECT d.id FROM department d where d.name=#{dname}) ) )
+	</select>
+	<select id="selectXldUserCore" resultType="String">
+
+		SELECT u.id FROM user u left JOIN user_role ur on u.id = ur.uid where ur.rid in(
+			SELECT r.id FROM role r left JOIN role_department rd on r.id=rd.rid where rd.did=(
+				SELECT id FROM department d where name=#{dname}))
+
+	</select>
+</mapper>
